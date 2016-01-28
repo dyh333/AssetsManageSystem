@@ -56,6 +56,9 @@ require.config({
             deps: ['three'],
             exports: 'objloader'
         },
+        "stats":{
+            exports: 'stats'
+        },
         "tween": {
             exports: 'tween'
         }

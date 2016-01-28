@@ -1,12 +1,12 @@
 /**
  * Created by dingyh on 2015/09/01.
  */
-define(['serviceConfig', 'jquery', 'url', 'three', 'orbitControls', 'objloader', 'tween', 'terraformer', 'terraformer_wkt_parser', 'postal', 'amplify', 'loadInitParam'],
-    function (config, $, url, three, orbitControls, objloader, tween, terraformer, terraformer_wkt_parser, postal, amplify, loadInitParam) {
+define(['serviceConfig', 'jquery', 'url', 'three', 'orbitControls', 'objloader', 'stats', 'tween', 'terraformer', 'terraformer_wkt_parser', 'postal', 'amplify', 'loadInitParam'],
+    function (config, $, url, three, orbitControls, objloader, stats, tween, terraformer, terraformer_wkt_parser, postal, amplify, loadInitParam) {
         var propId = url('?propId');
         var bldgCenterArray = [];
 
-        var camera, scene, webGLRenderer;
+        var camera, scene, webGLRenderer, stats;
         var trackballControls, orbitControls;
         var loader = new THREE.OBJLoader();
         var mouse = new THREE.Vector2();
@@ -53,9 +53,12 @@ define(['serviceConfig', 'jquery', 'url', 'three', 'orbitControls', 'objloader',
             webGLRenderer = new THREE.WebGLRenderer({
                 antialias: true
             });
-            webGLRenderer.setClearColor();
+            //webGLRenderer.setClearColor();
             webGLRenderer.setClearColor(new THREE.Color(0x87A0AB, 1.0));
             webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+
+            // add the output of the renderer to the html element
+            document.getElementById("WebGL-output").appendChild(webGLRenderer.domElement);
 
             //addAxes();
 
@@ -67,6 +70,8 @@ define(['serviceConfig', 'jquery', 'url', 'three', 'orbitControls', 'objloader',
 
             addOrbitControl();
 //        addTrackControl();
+
+            addStats();
         }
 
         function loadBldgs() {
@@ -79,9 +84,6 @@ define(['serviceConfig', 'jquery', 'url', 'three', 'orbitControls', 'objloader',
             addBldgMouseEvent();
 
             render();
-
-            // add the output of the renderer to the html element
-            document.getElementById("WebGL-output").appendChild(webGLRenderer.domElement);
         }
 
         function addAxes() {
@@ -137,6 +139,14 @@ define(['serviceConfig', 'jquery', 'url', 'three', 'orbitControls', 'objloader',
             trackballControls.panSpeed = 3.0;
             trackballControls.staticMoving = true;
 //        trackballControls.target = new THREE.Vector3(63872.230600000359, 37687.36930000037, 0);
+        }
+
+        function addStats(){
+            stats = new Stats();
+            stats.domElement.style.position = "absolute";
+            stats.domElement.style.left = "0px";
+            stats.domElement.style.bottom = "0px";
+            document.getElementById('WebGL-output').appendChild(stats.domElement);
         }
 
         /*
@@ -522,6 +532,8 @@ define(['serviceConfig', 'jquery', 'url', 'three', 'orbitControls', 'objloader',
         }
 
         function render() {
+            stats.begin();
+
             var delta = clock.getDelta();
             orbitControls.update(delta);
 //        trackballControls.update(delta);
@@ -540,6 +552,8 @@ define(['serviceConfig', 'jquery', 'url', 'three', 'orbitControls', 'objloader',
             requestAnimationFrame(render);
 
             webGLRenderer.render(scene, camera);
+
+            stats.end();
         }
 
         function addBldgMouseEvent() {
