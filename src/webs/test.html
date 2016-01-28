@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link href="../libs/css/bootstrap.min.css" rel="stylesheet">
+    <!-- knodo -->
+    <!--<link rel="stylesheet" href="../libs/css/kendo/kendo.common.min.css" />-->
+    <!--<link rel="stylesheet" href="../libs/css/kendo/kendo.default.min.css" />-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../libs/js/html5shiv.min.js"></script>
+    <script src="../libs/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../libs/js/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../libs/js/bootstrap.min.js"></script>
+<script src="../libs/js/kendo/kendo.all.min.js"></script>
+
+<style>
+    .inside {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        background: #ededed;
+        background: -webkit-gradient(linear, left top, left bottom,color-stop(0%, #f4f4f4), color-stop(100%, #ededed));
+        background: -moz-linear-gradient(top, #f4f4f4 0%, #ededed 100%);
+        background: -ms-linear-gradient(top, #f4f4f4 0%, #ededed 100%);
+    }
+
+
+    /* columns of same height styles */
+
+    .row-height {
+        display: table;
+        table-layout: fixed;
+        height: 100%;
+        width: 100%;
+    }
+    .col-height {
+        display: table-cell;
+        float: none;
+        height: 100%;
+    }
+    .col-top {
+        vertical-align: top;
+    }
+    .col-middle {
+        vertical-align: middle;
+    }
+    .col-bottom {
+        vertical-align: bottom;
+    }
+
+    @media (min-width: 480px) {
+        .row-xs-height {
+            display: table;
+            table-layout: fixed;
+            height: 100%;
+            width: 100%;
+        }
+        .col-xs-height {
+            display: table-cell;
+            float: none;
+            height: 100%;
+        }
+        .col-xs-top {
+            vertical-align: top;
+        }
+        .col-xs-middle {
+            vertical-align: middle;
+        }
+        .col-xs-bottom {
+            vertical-align: bottom;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .row-sm-height {
+            display: table;
+            table-layout: fixed;
+            height: 100%;
+            width: 100%;
+        }
+        .col-sm-height {
+            display: table-cell;
+            float: none;
+            height: 100%;
+        }
+        .col-sm-top {
+            vertical-align: top;
+        }
+        .col-sm-middle {
+            vertical-align: middle;
+        }
+        .col-sm-bottom {
+            vertical-align: bottom;
+        }
+    }
+
+    @media (min-width: 992px) {
+        .row-md-height {
+            display: table;
+            table-layout: fixed;
+            height: 100%;
+            width: 100%;
+        }
+        .col-md-height {
+            display: table-cell;
+            float: none;
+            height: 100%;
+        }
+        .col-md-top {
+            vertical-align: top;
+        }
+        .col-md-middle {
+            vertical-align: middle;
+        }
+        .col-md-bottom {
+            vertical-align: bottom;
+        }
+    }
+
+
+</style>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="row-sm-height">
+            <div class="col-sm-6 col-sm-height"  style="background-color: #122b40">
+                <div class="inside">
+                    <div class="content"><br><br><br><br><br><br><br></div>
+                </div>
+            </div>
+            <div class="col-sm-3 col-sm-height col-sm-top"  style="background-color: #269abc">
+                <div class="inside">
+                    <div class="content"></div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-sm-height col-sm-middle"  style="background-color: #ff0004">
+                <div class="inside">
+                    <div class="content"></div>
+                </div>
+            </div>
+            <div class="col-sm-1 col-sm-height col-sm-bottom" style="background-color: #ff00ff">
+                <div class="inside">
+                    <div class="content"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

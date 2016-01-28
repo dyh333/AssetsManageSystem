@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf8"/>
+
+    <link href="../css/common.css" rel="stylesheet">
+    <link href="../css/3dbuilding.css" rel="stylesheet">
+    <link href="../css/innerroom.css" rel="stylesheet">
+    <title></title>
+
+    <script src="../js/lib/require.js" data-main="../js/main-3dbuilding" defer async="true"></script>
+
+</head>
+<body>
+
+
+<!--左侧图片栏-->
+<div id="div_floor" style="display: none;">
+    <div id="div_btn">
+        <!--<input type='button' class="btn-w3r" style="background: url('../imgs/floor_num/mode_building.png')"></input>-->
+        <img id="img_bldgMode" src="../imgs/floor_num/mode_building_select.png" title="返回"/>
+    </div>
+    <table id="tbl_floorlist">
+        <tr id="tr_floorlist">
+            <!--<td id="td_floorlist">-->
+            <script id="btn_floor_tmpl" type="text/x-jsrender">
+
+    {{for}}
+        <input type='button' data-value={{:BASE_HEIGHT}} value={{:FLOOR}} class="btn-w3r"></input>
+    {{/for}}
+
+
+            </script>
+            <!--</td>-->
+        </tr>
+    </table>
+</div>
+
+<!--右侧图片栏-->
+<div id="summary">
+    <table>
+        <tr>
+            <td id="td_text" style="font-size: 10pt;"></td>
+            <td>
+                <button id="btnRotate" style="display: none;">旋转</button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="btnRenderCap">出租面积</button>
+            </td>
+            <td>
+                <button id="btnRenderRent">出租率</button>
+            </td>
+            <td>
+                <button id="btnRenderIncome">租金收入</button>
+            </td>
+            <td>
+                <button id="btnTween">tween</button>
+            </td>
+            <td>
+                <button id="btnFloorUp">FloorUp</button>
+            </td>
+            <td>
+                <button id="btnFloorDown">FloorDown</button>
+            </td>
+        </tr>
+        <tr style="font-size: 9pt;">
+            <td id="td_area"></td>
+            <td id="td_rent"></td>
+            <td id="td_income"></td>
+        </tr>
+    </table>
+
+    <!--<select>-->
+    <!--<option value ="">渲染</option>-->
+    <!--<option value ="1">按面积</option>-->
+    <!--<option value ="2">按</option>-->
+    <!--<option value ="3">按收入</option>-->
+    <!--</select>-->
+
+    <!--<button id="btnFullScreen">fullScreen</button>-->
+</div>
+<div id="Stats-output" style="display: none;">
+</div>
+<!-- Div which will hold the Output -->
+<div id="WebGL-output">
+</div>
+
+</body>
+</html>

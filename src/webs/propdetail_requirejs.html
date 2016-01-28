@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>新建元集团资产可视化系统-楼幢浏览</title>
+
+    <!-- Bootstrap -->
+    <link href="../js/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/common.css"/>
+    <link rel="stylesheet" href="../css/columnsameheight.css"/>
+
+    <style>
+        html, body {
+            overflow: hidden;
+        }
+    </style>
+
+    <script src="../js/lib/require.js" data-main="../js/main-propdetail" defer async="true"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <!-- 顶部标题 -->
+    <div id="div_top" class="row">
+        <div class="row-height">
+            <div class="col-sm-3 col-sm-height">
+                <img src="../imgs/logo.png" class="img-responsive" alt="logo">
+            </div>
+            <div class="col-sm-6 col-sm-height" style="vertical-align: middle;">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="请输入项目名称" aria-describedby="basic-addon2">
+                <span class="input-group-btn" id="basic-addon2">
+                    <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+                </div>
+            </div>
+            <div class="col-sm-3 col-sm-height" style="text-align: right; vertical-align: middle;">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" aria-label="">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" aria-label="">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" aria-label="">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="div_banner" class="row">
+        <div class="row-height">
+            <div class="col-sm-3 col-sm-height"
+                 style="vertical-align: middle; background: rgba(0, 0, 0, 0) url('../imgs/leftTopTab_bg.png');
+                 background-size:cover; color: white;">
+                <div class="row-height">
+                    <script id="ul_prop_tmpl" type="text/x-jsrender">
+                        <ul class="list-unstyled">
+                            <li><h4>{{:PROP_NAME}}</h4></li>
+                            <li>{{:PROP_RIGHT_NAME}} | {{:PROP_TYPE_NAME}}</li>
+                        </ul>
+
+                    </script>
+                    <div id="div_prop_title" class="col-sm-9 col-sm-height" style="vertical-align: middle;"></div>
+                    <div class="col-sm-3 col-sm-height" style="vertical-align: middle; text-align: right;">
+                        <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-6 col-sm-height" style="background-color: #5C5C5D;">
+            </div>
+            <div class="col-sm-3 col-sm-height" style="background-color: #5C5C5D; vertical-align: middle; text-align: right;">
+               <div>
+                   <button id="btnObliqueView" type="button" class="btn btn-default" aria-label="" disabled="disabled" style="padding-top: 0px; padding-bottom: 0px;">斜视</button>
+                   <button id="btnSideView" type="button" class="btn btn-default" aria-label="" disabled="disabled" style="padding-top: 0px; padding-bottom: 0px;">侧视</button>
+                   <button id="btnTopView" type="button" class="btn btn-default" aria-label="" disabled="disabled" style="padding-top: 0px; padding-bottom: 0px;">顶视</button>
+               </div>
+                <div style="height: 1px;"></div>
+                <div>
+                    <button id="btnScreenshot" type="button" class="btn btn-default" aria-label="" disabled="disabled" style="padding-top: 0px; padding-bottom: 0px;">截图</button>
+                    <button id="btnFullScreen" type="button" class="btn btn-default" aria-label="" disabled="disabled" style="padding-top: 0px; padding-bottom: 0px;">全屏</button>
+                    <button id="btnRotate" type="button" class="btn btn-default" aria-label=""  style="padding-top: 0px; padding-bottom: 0px;">旋转</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="div_center" class="row">
+        <!-- left -->
+        <div class="col-sm-3" style="height: 100%;">
+
+
+            <div class="row" style="height: 100%;">
+                <div class="panel panel-default" style="height: 100%;">
+                    <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                        <li class="active"><a href="#div_prop_detail" data-toggle="tab">基本信息</a></li>
+                        <li><a href="#div_rent_companies" data-toggle="tab">入驻企业</a></li>
+                        <li><a href="#div_income_index" data-toggle="tab">收入指标</a></li>
+                    </ul>
+
+                    <script id="panel_prop_tmpl" type="text/x-jsrender">
+                        <img src="../imgs/pic/{{:PICTURE}}" class="img-thumbnail img-responsive">
+                        <dl class="dl-horizontal">
+                            <dt style="width: 100px; margin-bottom: 5px;">持有类型:</dt>
+                            <dd style="margin-left: 120px;">{{:HOLD_TYPE_CODE}}</dd>
+                            <dt style="width: 100px; margin-bottom: 5px;">地址:</dt>
+                            <dd style="margin-left: 120px;">{{:ADDRESS}}</dd>
+                            <dt style="width: 100px; margin-bottom: 5px;">方位描述:</dt>
+                            <dd style="margin-left: 120px;">{{:POSITION_DESC}}</dd>
+                            <dt style="width: 100px; margin-bottom: 5px;">地上层数:</dt>
+                            <dd style="margin-left: 120px;">{{:GROUND_FLOORS}}</dd>
+                            <dt style="width: 100px; margin-bottom: 5px;">地下层数:</dt>
+                            <dd style="margin-left: 120px;">{{:UNGROUND_FLOORS}}</dd>
+                            <dt style="width: 100px; margin-bottom: 5px;">占地面积:</dt>
+                            <dd style="margin-left: 120px;">{{:SURFACE_AREA}}</dd>
+                            <dt style="width: 100px; margin-bottom: 5px;">建筑面积:</dt>
+                            <dd style="margin-left: 120px;">{{:BUILD_AREA}}</dd>
+                            <dt style="width: 100px; margin-bottom: 5px;">计容产权面积:</dt>
+                            <dd style="margin-left: 120px;">{{:CAP_BUILD_AREA}}</dd>
+                            <dt style="width: 100px; margin-bottom: 5px;">地上停车位:</dt>
+                            <dd style="margin-left: 120px;">{{:GROUND_PARKS}}</dd>
+                            <dt style="width: 100px; margin-bottom: 5px;">地下停车位:</dt>
+                            <dd style="margin-left: 120px;">{{:UNGROUND_PARKS}}</dd>
+                        </dl>
+
+
+                    </script>
+
+                    <script id="panel_rent_tmpl" type="text/x-jsrender">
+                        {{for}}
+                            <tr>
+                                <td>{{:name}}</td>
+                                <td>{{:loc}}</td>
+                            </tr>
+                        {{/for}}
+
+                    </script>
+
+                    <script id="panel_income_tmpl" type="text/x-jsrender">
+
+                    </script>
+
+                    <div id="my-tab-content" class="tab-content">
+                        <div class="tab-pane active" id="div_prop_detail" style="height: 100%;">
+                            <!--<div id="div_prop_detail" class="panel-body"></div>-->
+                        </div>
+                        <div class="tab-pane" id="div_rent_companies" style="height: 100%;">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>企业名称</th>
+                                    <th>坐落</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody_rent_companies" style="font-size: 10pt;">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="tab-pane" id="div_income_index" style="height: 100%;">
+                            <h4>资产基础信息</h4>
+                            <table class="table table-striped">
+                                <tbody style="font-size: 10pt;">
+                                <tr>
+                                    <td>账面原值</td>
+                                    <td>22450万元</td>
+                                </tr>
+                                <tr>
+                                    <td>折旧年限</td>
+                                    <td>4年</td>
+                                </tr>
+                                <tr>
+                                    <td>账面价值</td>
+                                    <td>22150万元</td>
+                                </tr>
+                                <tr>
+                                    <td>单位价值</td>
+                                    <td>1582元</td>
+                                </tr>
+                                <tr>
+                                    <td>土地面积</td>
+                                    <td>14万平方米</td>
+                                </tr>
+                                <tr>
+                                    <td>总建筑面积</td>
+                                    <td>30万平方米</td>
+                                </tr>
+                                <tr>
+                                    <td>产证面积</td>
+                                    <td>28万平方米</td>
+                                </tr>
+                                <tr>
+                                    <td>可出租面积</td>
+                                    <td>21万平方米</td>
+                                </tr>
+                                <tr>
+                                    <td>出租率</td>
+                                    <td>78%</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <h4>租赁状态分析</h4>
+                            <table class="table table-striped">
+                                <tbody style="font-size: 10pt;">
+                                <tr>
+                                    <td>年目标租金收入</td>
+                                    <td>6300万元</td>
+                                </tr>
+                                <tr>
+                                    <td>年计划租金收入</td>
+                                    <td>6200万元</td>
+                                </tr>
+                                <tr>
+                                    <td>年度目标完成率</td>
+                                    <td>65%</td>
+                                </tr>
+                                <tr>
+                                    <td>租金水平</td>
+                                    <td>60元/平米.月</td>
+                                </tr>
+                                <tr>
+                                    <td>合同租金收缴率</td>
+                                    <td>96%</td>
+                                </tr>
+                                <tr>
+                                    <td>应收租金收缴率</td>
+                                    <td>95%</td>
+                                </tr>
+                                <tr>
+                                    <td>租赁型物业出租率</td>
+                                    <td>75%</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <h4>合同账期分析</h4>
+                            <table class="table table-striped">
+                                <tbody style="font-size: 10pt;">
+                                <tr>
+                                    <td>30天内到期数量</td>
+                                    <td>6个</td>
+                                </tr>
+                                <tr>
+                                    <td>30天内到期租金</td>
+                                    <td>320万</td>
+                                </tr>
+                                <tr>
+                                    <td>30天内到期面积</td>
+                                    <td>5600平方米%</td>
+                                </tr>
+                                <tr>
+                                    <td>60天内到期数量</td>
+                                    <td>12个</td>
+                                </tr>
+                                <tr>
+                                    <td>60天内到期租金</td>
+                                    <td>740万</td>
+                                </tr>
+                                <tr>
+                                    <td>60天内到期面积</td>
+                                    <td>11200平方米</td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                            <h4>风险预警统计</h4>
+                            <table class="table table-striped">
+                                <tbody style="font-size: 10pt;">
+                                <tr>
+                                    <td>铺位空置统计</td>
+                                    <td>30个</td>
+                                </tr>
+                                <tr>
+                                    <td>欠缴情况统计</td>
+                                    <td>500万</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- right -->
+        <div id="div_3d" class="col-sm-9" style="padding-left: 0px; padding-right: 0px; height: 100%">
+            <iframe id="iframe_3d" src="" height="100%" width="100%"
+                    frameborder="0" scrolling="no" allowfullscreen="true"
+                    webkitallowfullscreen="true" mozallowfullscreen="true" oallowfullscreen="true"
+                    msallowfullscreen="true"></iframe>
+        </div>
+    </div>
+</div>
+
+<style type="text/css">
+    #my-tab-content {
+        height: -moz-calc(100% - 90px);
+        height: -webkit-calc(100% - 90px);
+        height: calc(100% - 90px);
+        overflow-x: auto;
+    }
+</style>
+</body>
+</html>

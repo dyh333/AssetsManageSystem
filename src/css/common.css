@@ -1,0 +1,20 @@
+html, body {
+    margin: 0px;
+    height: 100%;
+    font-family: Microsoft Yahei;
+}
+
+.round {
+    -moz-border-radius: 5px;      /* Gecko browsers */
+    -webkit-border-radius: 5px;   /* Webkit browsers */
+    border-radius:5px;            /* W3C syntax */
+}
+
+.selected {
+    color: white;
+    background-color: #E03C47 !important;
+}
+
+.hand_cursor {
+    cursor: Pointer;
+}

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>新建元集团资产可视化系统-首页</title>
+
+    <!-- Bootstrap -->
+    <link href="../js/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- knodo -->
+    <link rel="stylesheet" href="../js/lib/kendo/style/kendo.common-bootstrap.min.css"/>
+    <link rel="stylesheet" href="../js/lib/kendo/style/kendo.bootstrap.min.css"/>
+
+    <link rel="stylesheet" href="../css/columnsameheight.css"/>
+    <link rel="stylesheet" href="../css/index.css"/>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="../js/lib/html5shiv.min.js"></script>
+    <script src="../js/lib/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../js/lib/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="../js/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="../js/lib/kendo/js/kendo.all.min.js"></script>
+
+<div class="container-fluid">
+    <!-- 顶部标题 -->
+    <div class="row">
+        <div class="row-height">
+            <div class="col-sm-3 col-sm-height">
+                <img src="../imgs/logo.png" class="img-responsive" alt="logo">
+            </div>
+            <div class="col-sm-6 col-sm-height" style="vertical-align: middle;">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="请输入项目名称" aria-describedby="basic-addon2">
+                <span class="input-group-btn" id="basic-addon2">
+                    <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+                </div>
+            </div>
+            <div class="col-sm-3 col-sm-height" style="text-align: right; vertical-align: middle;">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" aria-label="" onclick="javascript:window.location.href='props_requirejs.html'">
+                        <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" aria-label="">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" aria-label="">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" aria-label="">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- center -->
+    <div class="row">
+        <div class="demo-section k-content wide">
+            <!-- <h3 class="example-title">Stock<span>History</span></h3>
+             <h4 class="example-description">Kendo UI Data Visualization Project</h4>-->
+
+             <div id="year-filtering-tabs" class="filtering-tabs"></div>
+
+             <h5 class="example-subtitle">营业额/天</h5>
+             <span class="metric">在 <span class="selected-year"></span></span>
+
+             <div id="chart-type-chooser">
+                 <strong class="example-subtitle radio-group-label">图表类型</strong>
+
+                 <ul class="radio-group">
+                     <li><input type="radio" name="chart-type" value="area" id="chart-type-area" checked><label for="chart-type-area">面状</label></li>
+                     <li><input type="radio" name="chart-type" value="line" id="chart-type-line"><label for="chart-type-line">线状</label></li>
+                 </ul>
+             </div>
+
+             <div id="yearly-stock-prices"></div>
+
+             <script type="text/x-kendo-template" id="company-info-template">
+                 <dl class="stat first">
+                     <dt class="example-subtitle">
+                         #= name # 营业额
+                         <span class="metric">万元</span>
+                     </dt>
+                     <dd class="eoy-closing"></dd>
+                 </dl>
+
+                 <div class="company-trends">
+                     <div class="example-subtitle">
+                        目标完成情况
+                         <span class="metric">全年</span>
+                     </div>
+
+                     <dl class="stat trend-container highest-container">
+                         <dt class="example-subtitle">目标收入</dt>
+                         <dd class="highest"></dd>
+                         <dd class="sparkline highest-sparkline"></dd>
+                     </dl>
+
+                     <dl class="stat trend-container lowest-container">
+                         <dt class="example-subtitle">实际完成</dt>
+                         <dd class="lowest"></dd>
+                         <dd class="sparkline lowest-sparkline"></dd>
+                     </dl>
+
+                     <dl class="stat trend-container">
+                         <dt class="example-subtitle">环比</dt>
+                         <dd class="relative-value"></dd>
+                         <dd class="sparkline relative-value-sparkline"></dd>
+                     </dl>
+
+                     <div class="relative-value-pie"></div>
+                 </div>
+
+                 <div class="separator"></div>
+
+                 <dl class="stat first">
+                     <dt class="example-subtitle">
+                         全年收入情况
+                         <span class="metric">月度</span>
+                     </dt>
+                     <dd class="volume"></dd>
+                 </dl>
+
+                 <div class="volume-chart"></div>
+             </script>
+
+             <div id="company-filtering-tabs" class="filtering-tabs"></div>
+
+             <div class="company-info" id="google"></div>
+         </div>
+         <div class="responsive-message"></div>
+         <script>
+             $(document).ready(function () {
+                 setTimeout(setup, 500);
+             });
+
+             function setup() {
+                 var selectedYear = 2015;
+
+                 var stocksDataSource = new kendo.data.DataSource({
+                     transport: {
+                         read: {
+                             url: function() {
+                                 return "../data/stock-data-" + selectedYear + ".json";
+                             },
+                             dataType: "json"
+                         }
+                     },
+
+                     group: {
+                         field: "symbol"
+                     },
+
+                     sort: {
+                         field: "date",
+                         dir: "asc"
+                     },
+
+                     schema: {
+                         model: {
+                             fields: {
+                                 date: {
+                                     type: "date"
+                                 }
+                             }
+                         }
+                     },
+
+                     change: function() {
+                         $("[name=chart-type][value=area]").prop("checked", true);
+
+                         var view = this.view(),
+                                 index = $("#company-filtering-tabs").data("kendoTabStrip").select().index();
+
+                         // populate detailed stock prices
+                         populateStockPrices(view[indexChart], indexChart);
+                     }
+                 });
+
+                 var defaultSeriesColors = [ "#dd7070", "#c71010", "#8d1c1c" ];
+
+                 function populateStockPrices(data, companyIndex) {
+                     var container = $(".company-info"),
+                             yearlyStockValues = data.items,
+                             highest = yearlyStockValues[0].high,
+                             lowest = yearlyStockValues[0].low,
+                             volume = 0,
+                             metric = "",
+                             format = function(number) {
+                                 return kendo.toString(number, "n");
+                             },
+                             sparklineOptions = function(field, color, data) {
+                                 return {
+                                     renderAs: "canvas",
+                                     dataSource: data || yearlyStockValues,
+                                     series: [{
+                                         field: field,
+                                         color: color
+                                     }],
+                                     seriesDefaults: {
+                                         type: "line",
+                                         markers: { visible: false },
+                                         line: { width: 2 }
+                                     },
+                                     axisDefaults: {
+                                         visible: false,
+                                         majorGridLines: { visible: false }
+                                     },
+                                     legend: { visible: false }
+                                 };
+                             };
+
+                     $.each(yearlyStockValues, function() {
+                         highest = this.high > highest ? this.high : highest;
+                         lowest = this.low < lowest ? this.low : lowest;
+                         volume += this.volume;
+                     });
+
+                     if (volume > 999999999) {
+                         volume /= 1000000000;
+                         metric = "billions stocks";
+                     } else if (volume > 999999) {
+                         volume /= 1000000;
+                         metric = "月度";
+                     }
+
+                     function yearlyRelativeValue(stockValues) {
+                         return stockValues[stockValues.length-1].close / stockValues[0].open * 100;
+                     }
+
+                     var relativeValues = $.map(yearlyStockValues, function(item, index) {
+                         var value = 100;
+
+                         if (indexChart > 0) {
+                             value = item.close * 100 / yearlyStockValues[indexChart - 1].open;
+                         }
+
+                         return { value: value };
+                     });
+
+                     var companyRelativeGain = $.map(stocksDataSource.view(), function(data, index) {
+                         return {
+                             value: yearlyRelativeValue(data.items) - 100
+                         };
+                     });
+
+                     container
+                             .find(".eoy-closing").text(format(yearlyStockValues[yearlyStockValues.length - 1].close)).end()
+                             .find(".highest").text(format(highest)).end()
+                             .find(".lowest").text(format(lowest)).end()
+                             .find(".lowest-sparkline").kendoChart(sparklineOptions("low", "#cd1533")).end()
+                             .find(".highest-sparkline").kendoChart(sparklineOptions("high", "#639514")).end()
+                             .find(".first dt .metric").eq(1).text(metric).end().end()
+                             .find(".volume").text(format(volume)).end()
+                             .find(".relative-value").text(format(yearlyRelativeValue(yearlyStockValues) - 100) + "%").end()
+                             .find(".relative-value-sparkline").kendoChart(sparklineOptions("value", "#4da3d5", relativeValues)).end()
+                             .find(".relative-value-pie").kendoChart({
+                                 renderAs: "canvas",
+                                 dataSource: companyRelativeGain,
+                                 seriesDefaults: {
+                                     type: "pie",
+                                     overlay: {
+                                         gradient: "none"
+                                     }
+                                 },
+                                 seriesColors: defaultSeriesColors,
+                                 series: [{
+                                     field: "value"
+                                 }],
+                                 legend: { visible: false }
+                             }).end()
+                             .find(".volume-chart").kendoChart({
+                                 renderAs: "canvas",
+                                 dataSource: yearlyStockValues,
+                                 series: [{
+                                     field: "volume",
+                                     gap: 0.7
+                                 }],
+                                 seriesDefaults: {
+                                     type: "column",
+                                     color: "#8d1c1c",
+                                     border: {
+                                         width: 0
+                                     },
+                                     overlay: {
+                                         gradient: "none"
+                                     }
+                                 },
+                                 axisDefaults: {
+                                     majorGridLines: { visible: false },
+                                     majorTicks: { visible: false }
+                                 },
+                                 categoryAxis: {
+                                     field: "date",
+
+                                     labels: {
+                                         format: "MMM",
+                                         color: "#8e7272"
+                                     }
+                                 },
+                                 tooltip: {
+                                     visible: true
+                                 },
+                                 valueAxis: {
+                                     visible: false
+                                 },
+                                 legend: { visible: false }
+                             }).end();
+                 }
+
+                 $("#yearly-stock-prices").kendoChart({
+                     renderAs: "canvas",
+                     dataSource: stocksDataSource,
+
+                     autoBind: false,
+
+                     seriesDefaults: {
+                         type: "area",
+                         overlay: {
+                             gradient: "none"
+                         },
+                         markers: {
+                             visible: false
+                         },
+                         majorTickSize: 0,
+                         opacity: .8
+                     },
+
+                     series: [{
+                         field: "close"
+                     }],
+
+                     seriesColors: defaultSeriesColors,
+
+                     valueAxis: {
+                         line: {
+                             visible: false
+                         },
+
+                         labels: {
+                             format: "${0}",
+                             skip: 2,
+                             step: 2,
+                             color: "#8e7272"
+                         }
+                     },
+
+                     categoryAxis: {
+                         field: "date",
+
+                         labels: {
+                             format: "MMM",
+                             color: "#8e7272"
+                         },
+
+                         line: {
+                             visible: false
+                         },
+
+                         majorTicks: {
+                             visible: false
+                         },
+
+                         majorGridLines: {
+                             visible: false
+                         }
+                     },
+
+                     legend: {
+                         visible: false
+                     }
+                 });
+
+                 $("[name=chart-type]").on("click", function() {
+                     var chart = $("#yearly-stock-prices").data("kendoChart"),
+                             allSeries = chart.options.series,
+                             newSeriesType = $(this).val();
+
+                     chart.options.seriesDefaults.type = newSeriesType;
+
+                     for (var series in allSeries) {
+                         allSeries[series].type = newSeriesType;
+                         allSeries[series].opacity = newSeriesType == "area" ? .8 : 1;
+                     }
+
+                     chart.redraw();
+                 });
+
+                 var companyInfoTemplate = kendo.template($("#company-info-template").html());
+
+                 $(".company-info").each(function() {
+                     var panel = $(this);
+                     panel.html(companyInfoTemplate({ name: panel.attr("id") }));
+                 });
+
+                 $("#year-filtering-tabs").kendoTabStrip({
+                     dataSource: ["2011","2012","2013","2014","2015"],
+                     change: function(e) {
+                         selectedYear = this.value();
+
+                         $(".selected-year").text(selectedYear);
+
+                         stocksDataSource.read();
+                     }
+                 }).data("kendoTabStrip").select(4);
+
+                 $("#company-filtering-tabs").kendoTabStrip({
+                     dataSource: ["建屋发展", "圆融集团", "商旅发展", "邻里中心"],
+                     change: function() {
+                         var company = this.value().toLowerCase(),
+                                 index = this.select().index(),
+                                 view = stocksDataSource.view();
+
+                         if (view.length) {
+                             $(".company-info").html(companyInfoTemplate({ name: company }));
+
+                             populateStockPrices(view[indexChart], indexChart);
+                         }
+                     }
+                 })
+                         .find(".k-item").each(function(index) {
+                             var color = defaultSeriesColors[indexChart];
+
+                             $(this).css({
+                                 color: color,
+                                 borderColor: color
+                             });
+                         }).end()
+                         .data("kendoTabStrip").select(0);
+
+             }
+         </script>
+
+         <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:700,300" rel="stylesheet">
+
+     </div>
+ </div>
+ </body>
+ </html>

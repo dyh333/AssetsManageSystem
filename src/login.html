@@ -1,0 +1,219 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>欢迎登录</title>
+    <script src="js/lib/jquery.min.js"></script>
+    <link href="css/login/learunui-login.css" rel="stylesheet" />
+    <link href="js/lib/awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="js/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!--<script src="../Content/Scripts/plugins/bootstrap/bootstrap.min.js"></script>-->
+    <script src="js/lib/jquery.md5.js"></script>
+    <script src="js/lib/aes.js"></script>
+    <script src="js/lib/learun/learunui-5.1.js"></script>
+    <script>
+        var contentPath = '@Url.Content("~")'.substr(0, '@Url.Content("~")'.length - 1);
+        //回车键
+        document.onkeydown = function (e) {
+            if (!e) e = window.event; //火狐中是 window.event
+            if ((e.keyCode || e.which) == 13) {
+                var btlogin = document.getElementById("btlogin");
+                btlogin.click();
+            }
+        }
+        function resize() {
+            var _width = ($(window).width() - $(".login_bg_center").width()) / 2;
+            var _height = ($(window).height() - $(".login_bg_center").height()) / 2;
+            $(".login_titleLine").css('left', _width);
+            $(".login_logo").css({ left: _width, top: _height - 60 });
+            $(".login_bg_left").width(_width);
+            $(".login_bg_right").width(_width);
+            $(".login_head").height(_height);
+            $(".login_bottom").height(_height)
+            $('.login_bottom_name').css({ right: _width });
+            $(window).resize(function (e) {
+                window.setTimeout(function () {
+                    var _width = ($(window).width() - $(".login_bg_center").width()) / 2;
+                    var _height = ($(window).height() - $(".login_bg_center").height()) / 2;
+                    $(".login_titleLine").css('left', _width);
+                    $(".login_logo").css({ left: _width, top: _height - 60 });
+                    $(".login_bg_left").width(_width);
+                    $(".login_bg_right").width(_width);
+                    $(".login_head").height(_height);
+                    $(".login_bottom").height(_height)
+                    $('.login_bottom_name').css({ right: _width });
+                }, 00);
+                e.stopPropagation();
+            });
+        }
+        $(function () {
+            var SessionOverdue = Request('SessionOverdue');
+            if (SessionOverdue != "") {
+                dialogTop('登录信息超时，请重新登录。', 'error');
+            }
+            $(".login_form_header div").click(function () {
+                if (!$("#DomainServer").parents('.form_control').is(":hidden")) {
+                    $("#DomainServer").parents('.form_control').hide();
+                } else {
+                    $("#DomainServer").parents('.form_control').show();
+                }
+                $(".login_form_header div").removeClass('active')
+                $(this).addClass('active')
+            })
+            resize();
+            $("#VerifyCodeImag").click(function () {
+                $("#VerifyCode").val('');
+                $("#VerifyCodeImag").attr("src", contentPath + "/Login/VerifyCode?time=" + Math.random());
+            })
+        });
+
+        //加密
+        function AesEncrypt(message, key) {
+            //加密
+            seckey = CryptoJS.enc.Latin1.parse(key);
+            var encrypted = CryptoJS.AES.encrypt(message, seckey, { iv: seckey, mode: CryptoJS.mode.CBC });
+            return encrypted.toString();
+        }
+        //登陆验证
+        function LoginCheck() {
+            var $Account = $("#Account");
+            var $Password = $("#Password");
+            var $VerifyCode = $("#VerifyCode");
+            var $DomainServer = $("#DomainServer");
+            if ($Account.val() == "") {
+                $Account.focus();
+                formMessage('请输入登陆账户', 'error');
+                return false;
+            } else if ($Password.val() == "") {
+                $Password.focus();
+                formMessage('请输入登陆密码', 'error');
+                return false;
+            } else if ($VerifyCode.val() == "") {
+                $VerifyCode.focus();
+                formMessage('请输入验证码', 'error');
+                return false;
+            }
+            else if ($DomainServer.val() == "") {
+                if (!$("#DomainServer").parents('.form_control').is(":hidden")) {
+                    $DomainServer.focus();
+                    formMessage('请选择域服务器', 'error');
+                    return false;
+                }
+            }
+            SubmitLogin();
+        }
+        //登录加载
+        function SubmitLogin() {
+            var Account = $.trim($("#Account").val());
+            var Password = $.trim($("#Password").val());
+
+            if(Account == "test" && Password == "123456"){
+                window.location.href = 'webs/default.html';
+            }
+            else{
+                formMessage('用户名或密码错误', 'error');
+            }
+//            var VerifyCode = $.trim($("#VerifyCode").val());
+//            var DomainServer = $.trim($("#DomainServer").val());
+//            var loginType = $(".login_form_header div.active").attr('data-value');
+//            if (loginType == 0) {
+//                Password = $.md5(Password);
+//            }
+//            else {
+//                Password = AesEncrypt(Password, '@ViewBag.key');
+//            }
+//            var postData = {
+//                Account: Account,
+//                Password: Password,
+//                DomainServer: DomainServer,
+//                VerifyCode: VerifyCode,
+//                loginType: loginType
+//            }
+//            $.ajax({
+//                url: contentPath + "/Login/CheckLogin",
+//                type: "post",
+//                data: postData,
+//                dataType: "json",
+//                async: false,
+//                success: function (data) {
+//                    if (data.Number > 0) {
+//                        window.location.href = contentPath + '/Home/Index';
+//                        return false;
+//                    } else if (data.Number == -2) {
+//                        $("#VerifyCodeImag").trigger("click");
+//                    }
+//                    formMessage(data.Message, data.Number == 1 ? "succeed" : "error");
+//                },
+//                error: function (data) {
+//                    formMessage('服务端响应错误', 'error');
+//                }
+//            });
+        }
+        //提示信息
+        function formMessage(msg, type) {
+            alert(msg)
+        }
+    </script>
+</head>
+<body>
+    <div class="login_head">
+        <div class="login_titleLine"></div>
+        <div class="login_logo"></div>
+    </div>
+    <div class="login_center">
+        <table>
+            <tr>
+                <td>
+                    <div class="login_bg_left"></div>
+                </td>
+                <td>
+                    <div class="login_bg_center">
+                        <div class="login_form">
+                            <div class="login_form_header" style="overflow: hidden;">
+                                <div data-value="0" >用戶登录</div>
+                                <!--<div data-value="1">域身份登录</div>-->
+                            </div>
+                            <div class="login_form_input">
+                                <div class="login_form_area">
+                                    <div class="form_control">
+                                        <input id="Account" type="text" placeholder="登录名"  />
+                                    </div>
+                                    <div class="form_control">
+                                        <input id="Password" type="password" placeholder="密码"  />
+                                    </div>
+                                    <div class="form_control" style="display: none;">
+                                        <select id="DomainServer">
+                                            <option value="">域服务器</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="btlogin" class="login_form_btn" onclick="LoginCheck();">
+                                    登录
+                                </div>
+                                <!--<div style="height: 20px;">-->
+                                    <!--<div style="float: left; width: 114px; border-bottom: 1px solid #bdbdbd;"></div>-->
+                                    <!--<div style="float: left; width: 52px; text-align: center;"><span style="position: relative; top: -8px; color: #bdbdbd;">其他</span></div>-->
+                                    <!--<div style="float: left; width: 114px; border-bottom: 1px solid #bdbdbd;"></div>-->
+                                <!--</div>-->
+                                <!--<div class="login_social">-->
+                                    <!--<div class="login_social_weibo" title="新浪微博"></div>-->
+                                    <!--<div class="login_social_wechat" title="微信帐号"></div>-->
+                                    <!--<div class="login_social_qq" title="QQ帐号"></div>-->
+                                <!--</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="login_bg_right"></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="login_bottom">
+        <div class="login_bottom_name" style="height: 100px; line-height: 100px; color: #37373c; position: relative; text-align: right; padding-right: 100px;">
+            苏州工业园区格网信息科技有限公司&nbsp;&nbsp;技术支持
+        </div>
+    </div>
+</body>
+</html>
