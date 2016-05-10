@@ -1,7 +1,7 @@
 /**
  * Created by dingyh on 2015/09/01.
  */
-define(['jquery', 'url', 'jsrender', 'underscore', 'postal', 'amplify'], function ($, url, jsrender, _, postal, amplify) {
+define(['jquery', 'url', 'jsrender', 'underscore', 'postal'], function ($, url, jsrender, _, postal) {
     var propId = url('?propId');
 
     $('#btnRotate').click(function(){

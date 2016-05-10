@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Floor Rooms Editor</title>
+
+    <link rel="stylesheet" href="http://192.168.81.121:800/jsapi/library/3.16/3.16/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="http://192.168.81.121:800/jsapi/library/3.16/3.16/esri/css/esri.css">
+
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+        }
+
+        body {
+            background-color: #fff;
+            overflow: hidden;
+            font-family: Helvetica, san-serif;
+        }
+
+        #templatePickerPane {
+            width: 225px;
+            overflow: hidden;
+        }
+
+        #panelHeader {
+            background-color: #92A661;
+            border-bottom: solid 1px #92A860;
+            color: #FFF;
+            font-size: 18px;
+            height: 24px;
+            line-height: 22px;
+            margin: 0;
+            overflow: hidden;
+            padding: 10px 10px 10px 10px;
+        }
+
+        #map {
+            margin-right: 5px;
+            padding: 0;
+        }
+
+        .esriEditor .templatePicker {
+            padding-bottom: 5px;
+            padding-top: 5px;
+            height: 500px;
+            border-radius: 0px 0px 4px 4px;
+            border: solid 1px #92A661;
+        }
+
+        .dj_ie .infowindow .window .top .right .user .content, .dj_ie .simpleInfoWindow .content {
+            position: relative;
+        }
+    </style>
+
+
+    <script src="../js/lib/jquery.min.js"></script>
+    <script src="http://192.168.81.121:800/jsapi/library/3.16/3.16/init.js"></script>
+    <script>
+
+
+        require([
+            "../js/lib/arcgis-to-geojson.js",
+            "esri/config",
+            "esri/SpatialReference",
+            "esri/basemaps",
+            "esri/map",
+            "esri/toolbars/draw",
+            "esri/layers/GraphicsLayer",
+            "esri/layers/ArcGISTiledMapServiceLayer",
+            "esri/symbols/SimpleFillSymbol",
+            "esri/symbols/SimpleLineSymbol",
+            "esri/Color",
+            "esri/geometry/Point",
+            "esri/geometry/Polygon",
+            "esri/graphic",
+            "esri/SnappingManager",
+            "esri/toolbars/edit",
+            "esri/dijit/editing/Editor",
+            "esri/layers/FeatureLayer",
+            "esri/tasks/GeometryService",
+            "esri/toolbars/draw",
+            "dojo/keys",
+            "dojo/parser",
+            "dojo/_base/array",
+            "dojo/i18n!esri/nls/jsapi",
+            "dijit/layout/BorderContainer",
+            "dijit/layout/ContentPane",
+            "dojo/domReady!"
+
+        ], function (
+                arcgisToGeojsonUtils,
+                esriConfig, SpatialReference, esriBasemaps, Map, Draw, GraphicsLayer, Tiled, SimpleFillSymbol, SimpleLineSymbol, Color,
+                Point, Polygon, Graphic,
+                SnappingManager, Edit, Editor, FeatureLayer, GeometryService,
+                Draw, keys, parser, arrayUtils, i18n
+        ) {
+            var map, roomLayer, tempRoomLayer;
+            var selectedRoom, splitLine;
+
+            parser.parse();
+
+            //snapping is enabled for this sample - change the tooltip to reflect this
+            i18n.toolbars.draw.start += "<br/>Press <b>CTRL</b> to enable snapping";
+            i18n.toolbars.draw.addPoint += "<br/>Press <b>CTRL</b> to enable snapping";
+
+            //This sample requires a proxy page to handle communications with the ArcGIS Server services. You will need to
+            //replace the url below with the location of a proxy on your machine. See the 'Using the proxy page' help topic
+            //for details on setting up a proxy page.
+            esriConfig.defaults.io.proxyUrl = "/proxy/";
+
+
+
+
+            ///////////add base map ////////////////
+            var spatialReference;
+            $.getJSON("http://58.210.9.131/sipsd/rest/services/SIPSD/ZNJTMAP/MapServer?f=json", function(data){
+
+//                spatialReference = new SpatialReference(JSON.stringify(data.spatialReference));
+                spatialReference = new SpatialReference({"wkt":'PROJCS["Suzhou_1954_3_Degree_GK_CM_120E",GEOGCS["GCS_Beijing_1954",DATUM["D_Beijing_1954",SPHEROID["Krasovsky_1940",6378245.0,298.3]],PRIMEM["Greenwich",0.0],UNIT["Degree",0.0174532925199433]],PROJECTION["Gauss_Kruger"],PARAMETER["False_Easting",50805.0],PARAMETER["False_Northing",-3421129.0],PARAMETER["Central_Meridian",120.5833333333333],PARAMETER["Scale_Factor",1.0],PARAMETER["Latitude_Of_Origin",0.0],UNIT["Meter",1.0]]'});
+
+                map = new Map("map");
+                var tiled = new Tiled("http://58.210.9.131/sipsd/rest/services/SIPSD/ZNJTMAP/MapServer");
+                map.addLayer(tiled);
+
+
+                map.centerAndZoom(new Point(68702.1717334873, 44424.0472624344, spatialReference), 13);
+
+                roomLayer = new GraphicsLayer();
+                map.addLayer(roomLayer);
+                roomLayer.on("click", function(e){
+                    if(e.graphic.attributes != undefined && e.graphic.attributes.roomId != undefined){
+                        selectedRoom = e.graphic.attributes.roomId;
+                    }
+                });
+
+                tempRoomLayer = new GraphicsLayer();
+                map.addLayer(tempRoomLayer);
+
+                /////////add graphic layer /////////////////////
+                $.ajax({
+                    url: "http://localhost:51596/getFloorRooms/A41AB56E-CCD8-4D54-8C3B-23013BDF1B7F",
+                    dataType: 'jsonp',
+                    processData: false,
+                    cache: true,
+                    ifModified: true,
+                    //jsonpCallback: 'getFloorRoomsCB',
+                    type: 'GET',
+                    success: function (data) {
+                        var geojsonToArcGIS = require('../js/lib/arcgis-to-geojson.js').geojsonToArcGIS;
+                        var arcgis = geojsonToArcGIS(data);
+
+                        var polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                                        new Color([255,0,0]), 2),new Color([255,255,0,0.25])
+                        );
+
+                        $.each(arcgis, function(i,val){
+                            var geometry0 = new Polygon(spatialReference);
+                            geometry0.addRing(val.geometry.rings[0]);
+
+                            var attr = {"roomId": val.attributes.RM_ID};
+                            var graphic = new Graphic(geometry0, polygonSymbol, attr);
+
+//                            map.graphics.add(graphic);
+                            roomLayer.add(graphic);
+                        });
+
+
+
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log('load floor room error');
+                    }
+                });
+
+                $.ajax({
+                    url: "http://localhost:51596/getFloorWalls/A41AB56E-CCD8-4D54-8C3B-23013BDF1B7F",
+                    dataType: 'jsonp',
+                    processData: false,
+                    cache: true,
+                    ifModified: true,
+                    //jsonpCallback: 'getFloorRoomsCB',
+                    type: 'GET',
+                    success: function (data) {
+                        var geojsonToArcGIS = require('../js/lib/arcgis-to-geojson.js').geojsonToArcGIS;
+                        var arcgis2 = geojsonToArcGIS(data);
+
+                        var polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                                        new Color([0,0,255]), 2),new Color([0,255,255,0.25])
+                        );
+
+                        $.each(arcgis2, function(i,val){
+                            var geometry0 = new Polygon(spatialReference);
+                            geometry0.addRing(val.geometry.rings[0]);
+
+                            var graphic = new Graphic(geometry0, polygonSymbol);
+                            roomLayer.add(graphic);
+                        });
+
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log('load floor room error');
+                    }
+                });
+
+
+
+                //////////////map draw /////////////////
+                map.enableSnapping();
+
+                $("#btn_drawPolyline").click(function(){
+                    toolbar.activate(Draw["POLYLINE"]);
+                    map.hideZoomSlider();
+                });
+
+                map.on("load", createToolbar);
+
+                function createToolbar() {
+                    toolbar = new Draw(map);
+                    toolbar.on("draw-end", showTempSplitRoom);
+                }
+
+                function showTempSplitRoom(evt){
+                    addToMap(evt);
+
+                    cutRoom();
+                }
+
+                function addToMap(evt) {
+                    var symbol;
+                    toolbar.deactivate();
+                    map.showZoomSlider();
+                    switch (evt.geometry.type) {
+                        case "point":
+                        case "multipoint":
+                            symbol = new SimpleMarkerSymbol();
+                            break;
+                        case "polyline":
+                            symbol = new SimpleLineSymbol();
+                            break;
+                        default:
+                            symbol = new SimpleFillSymbol();
+                            break;
+                    }
+                    var graphic = new Graphic(evt.geometry, symbol);
+                    map.graphics.add(graphic);
+
+                    splitLine = evt.geometry.paths[0];
+                }
+            });
+
+
+            function cutRoom(){
+                $.ajax({
+                    url: "http://localhost:51596/cutRoomByLine/",
+                    dataType: 'json',
+                    processData: false,
+                    cache: true,
+                    ifModified: true,
+                    type: 'POST',
+                    data: "roomId="+selectedRoom+"&splitLine="+JSON.stringify(splitLine),
+                    success: function (data) {
+                        if(data == true){
+                            addTempSplitRoom();
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log('load floor room error');
+                    }
+                });
+            }
+
+            function addTempSplitRoom(){
+                $.ajax({
+                    url: "http://localhost:51596/loadTempSplitRoom/{roomFatId}".replace("{roomFatId}", selectedRoom),
+                    dataType: 'jsonp',
+                    processData: false,
+                    cache: true,
+                    ifModified: true,
+                    type: 'GET',
+                    success: function (data) {
+                        var geojsonToArcGIS = require('../js/lib/arcgis-to-geojson.js').geojsonToArcGIS;
+                        var arcgis = geojsonToArcGIS(data);
+
+                        var polygonSymbol = new SimpleFillSymbol(SimpleFillSymbol.STYLE_SOLID,
+                                new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+                                        new Color([255,0,0]), 2),new Color([0,255,255,0.25])
+                        );
+
+                        $.each(arcgis, function(i,val){
+                            var geometry0 = new Polygon(spatialReference);
+                            geometry0.addRing(val.geometry.rings[0]);
+
+                            var attr = {"roomId": val.attributes.RM_ID};
+                            var graphic = new Graphic(geometry0, polygonSymbol, attr);
+
+                            tempRoomLayer.add(graphic);
+                        });
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log('load floor room error');
+                    }
+                });
+            }
+
+            $("#btn_addTempSplitRoom").click(function(){
+                addTempSplitRoom();
+            });
+        });
+    </script>
+</head>
+
+<body class="claro">
+<div id="mainWindow" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false" style="width:100%; height:100%;">
+    <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+    </div>
+    <div data-dojo-type="dijit/layout/ContentPane" id="templatePickerPane" data-dojo-props="region:'left'">
+        <div id="panelHeader">
+            Default Editor
+        </div>
+        <div style="padding:10px;" id="editorDiv">
+        </div>
+
+        <button id="btn_drawPolyline">Polyline</button>
+        <button id="btn_addTempSplitRoom">AddTempSplitRoom</button>
+    </div>
+</div>
+
+</body>
+</html>

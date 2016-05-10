@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>新建元集团资产可视化系统-铺位编辑</title>
+
+    <!-- Bootstrap -->
+    <link href="../js/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../js/lib/bootstrap-treeview/bootstrap-treeview.min.css" rel="stylesheet">
+    <!-- esri -->
+    <link rel="stylesheet" href="http://58.210.9.131/EsriJS/3.16/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="http://58.210.9.131/EsriJS/3.16/esri/css/esri.css">
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/3.16/dijit/themes/claro/claro.css">-->
+    <!--<link rel="stylesheet" href="https://js.arcgis.com/3.16/esri/css/esri.css">-->
+
+    <link rel="stylesheet" href="../css/common.css"/>
+    <link rel="stylesheet" href="../css/columnsameheight.css"/>
+
+
+    <script src="../js/lib/jquery.min.js"></script>
+    <script src="../js/lib/bootstrap-treeview/bootstrap-treeview.min.js"></script>
+    <script src="../js/lib/JsRender/jsrender.min.js"></script>
+
+    <script src="http://58.210.9.131/EsriJS/3.16/init.js"></script>
+    <!--<script src="https://js.arcgis.com/3.16/"></script>-->
+
+    <script src="../js/main-floorRoomEditor_1.js"></script>
+</head>
+
+<body class="claro">
+<div class="container-fluid">
+    <!-- 顶部标题 -->
+    <div id="div_top" class="row">
+        <div class="row-height">
+            <div class="col-sm-3 col-sm-height">
+                <img src="../imgs/logo.png" class="img-responsive" alt="logo">
+            </div>
+            <div class="col-sm-6 col-sm-height" style="vertical-align: middle;">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="请输入项目名称" aria-describedby="basic-addon2">
+                <span class="input-group-btn" id="basic-addon2">
+                    <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </span>
+                </div>
+            </div>
+            <div class="col-sm-3 col-sm-height" style="text-align: right; vertical-align: middle;">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" aria-label="">
+                        <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" aria-label="">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </button>
+                    <button type="button" class="btn btn-default" aria-label="">
+                        <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="div_center" class="row">
+        <!-- left -->
+        <div class="col-sm-2" style="height: 100%;">
+            <div class="row" style="height: 100%;">
+                <div id="div_propertyTree" style="height: 100%; overflow-x: hidden; overflow-y: auto;" class=""></div>
+            </div>
+        </div>
+
+        <div class="col-sm-1" style="height: 100%;">
+            <table id="tbl_floorlist">
+                    <script id="btn_floor_tmpl" type="text/x-jsrender">
+                    {{for}}
+                        <input type='button' data-value={{:FLOOR}} value={{:FLOOR_INT}} class="btn-w3r"></input>
+                    {{/for}}
+                    </script>
+            </table>
+        </div>
+
+        <div class="col-sm-3" style="height: 100%;">
+            <div class="row" style="margin-left: 10px;">
+                <h4>铺位信息</h4>
+                <div style="height: 1px; background-color: #C8C8C8">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>状态</th>
+                            <th>铺位编号</th>
+                            <th>铺位名</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody_property_list" style="font-size: 10pt;">
+
+                        </tbody>
+                    </table>
+
+                    <script id="tbl_property_tmpl" type="text/x-jsrender">
+                        {{for}}
+                            <tr data-value={{:PROPERTY}}>
+                                <td id='td_gjIcon'>
+                                    {{if GJSTATUS == '1'}}<img src="../imgs/editor/btn_banding_ok.png" />
+                                    {{else}}<img src="../imgs/editor/btn_banding_no.png" />
+                                    {{/if}}
+                                </td>
+                                <td>{{:PROPERTYNAME}}</td>
+                                <td>{{:DESCRIPTION}}</td>
+                            </tr>
+                        {{/for}}
+
+                    </script>
+                </div>
+            </div>
+
+            <div class="row" style="height: 100%;">
+                <div id="div_propertyList" style="height: 100%; overflow-x: hidden; overflow-y: auto;" class=""></div>
+            </div>
+        </div>
+
+        <!-- right -->
+        <div id="div_right" class="col-sm-6" style="height: 100%">
+            <div id="div_editMenu" class="row">
+                <input id="btn_selRoom" class="btn btn-default" type="button" value="选择">
+                <input id="btn_cutRoom" class="btn btn-default" type="button" value="裁切">
+                <input id="btn_mergeRoom" class="btn btn-default" type="button" value="合并">
+                <input id="btn_cancelCut" class="btn btn-default" type="button" value="取消">
+                <input id="btn_saveCut" class="btn btn-default" type="button" value="保存">
+                <input id="btn_hookRoom" class="btn btn-default" type="button" value="挂接">
+            </div>
+            <div class="row" id="div_map"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

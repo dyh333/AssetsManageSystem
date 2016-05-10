@@ -43,5 +43,5 @@ require(['loadProps', 'showMap'], function (loadProps, showMap) {
 
     loadProps.loadProps();
     showMap.loadBaseMap();
-    showMap.addLegendPanel();
+    //showMap.addLegendPanel();
 });

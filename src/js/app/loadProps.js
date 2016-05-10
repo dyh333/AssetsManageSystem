@@ -97,7 +97,6 @@ define(['jquery', 'jsrender', 'underscore', 'showMap'], function ($, jsrender, _
         //$("#div_center").css('overflowY', 'auto');
 
         $.ajax({
-            //TODO： use format lib
             url: propsUrl.replace('{0}', selHoldType).replace('{1}', selPropType),
             dataType: 'jsonp',
             processData: false,

@@ -1,8 +1,8 @@
 /**
  * Created by dingyh on 2015/09/01.
  */
-define(['jquery', 'url', 'three', 'orbitControls', 'objloader', 'terraformer', 'terraformer_wkt_parser', 'postal', 'amplify', 'load3dBuilding'],
-    function ($, url, three, orbitControls, objloader, terraformer, terraformer_wkt_parser, postal, amplify, load3dBuilding) {
+define(['jquery', 'url', 'three', 'orbitControls', 'objloader', 'terraformer', 'terraformer_wkt_parser', 'postal', 'load3dBuilding'],
+    function ($, url, three, orbitControls, objloader, terraformer, terraformer_wkt_parser, postal, load3dBuilding) {
         var propId, bldgId, floor, center;
         //var cameraPosition = loadInitParam.getCamera();
 
@@ -49,6 +49,8 @@ define(['jquery', 'url', 'three', 'orbitControls', 'objloader', 'terraformer', '
             addGridHelper();
 
             loadObj(floor);
+
+            loadProperty(floor);
 
             addCamera();
 
@@ -180,6 +182,13 @@ define(['jquery', 'url', 'three', 'orbitControls', 'objloader', 'terraformer', '
             });
         }
 
+        /**
+         * 加载楼层铺位
+         * @param floor
+         */
+        function loadProperty(floor){
+
+        }
 
         function addCamera() {
             // create a camera, which defines where we're looking at.

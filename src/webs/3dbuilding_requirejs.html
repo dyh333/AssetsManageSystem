@@ -28,7 +28,7 @@
             <script id="btn_floor_tmpl" type="text/x-jsrender">
 
     {{for}}
-        <input type='button' data-value={{:BASE_HEIGHT}} value={{:FLOOR}} class="btn-w3r"></input>
+        <input type='button' data-value={{:FLR_ID}} value={{:FLOOR}} class="btn-w3r"></input>
     {{/for}}
 
 
@@ -57,6 +57,8 @@
             <td>
                 <button id="btnRenderIncome">租金收入</button>
             </td>
+        </tr>
+        <tr>
             <td>
                 <button id="btnTween">tween</button>
             </td>
@@ -66,20 +68,20 @@
             <td>
                 <button id="btnFloorDown">FloorDown</button>
             </td>
+
         </tr>
-        <tr style="font-size: 9pt;">
-            <td id="td_area"></td>
-            <td id="td_rent"></td>
-            <td id="td_income"></td>
+        <tr>
+            <td>
+                <button id="btnAllFloors">AllFloors</button>
+            </td>
+            <td>
+                <button id="btnRenderFloors">RenderFloors</button>
+            </td>
+            <td>
+                <button id="btnStretchFloors">StretchFloors</button>
+            </td>
         </tr>
     </table>
-
-    <!--<select>-->
-    <!--<option value ="">渲染</option>-->
-    <!--<option value ="1">按面积</option>-->
-    <!--<option value ="2">按</option>-->
-    <!--<option value ="3">按收入</option>-->
-    <!--</select>-->
 
     <!--<button id="btnFullScreen">fullScreen</button>-->
 </div>
