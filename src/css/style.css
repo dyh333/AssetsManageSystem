@@ -1,0 +1,156 @@
+.middle{
+    background-color:#f8f8f8;
+    width: 260px;
+    height: auto;
+    float: left;
+    border-right: solid 1px #d2d2d2;
+}
+.middle-container{
+    width: 220px;
+    height: auto;
+    background-color: #f8f8f8;
+    margin:0px 20px;
+}
+.middle-one{
+    height: 45px;
+    width: 220px;
+    background-color: #f8f8f8;
+    border-bottom: 1px solid black;
+}
+.middle-one .text{
+    line-height: 45px;
+    font-size: 14px;
+}
+.middle-one .icon{
+    float: right;
+    line-height: 45px;
+}
+.input-group{
+    margin-top:10px;
+    height: 35px;
+}
+.form-control{
+    border-color: #d64635;
+    color: #bebebe;
+}
+.btn{
+    background-color: #d64635;
+}
+.group-company{
+    margin-top: 12px;
+    height: 33px;
+    line-height: 33px;
+    border-bottom: dashed 1px #8c8b8b;
+}
+.group-company span,.business-type span,.work-type span{
+    color: #8c8b8b;
+    font-size: 12px;
+}
+.group-company-detail{
+    height: auto;
+    margin-bottom: 16px;
+}
+.business-type-detail{
+
+}
+.group-company-detail-in,.business-type-detail-in{
+    margin-top: 10px;
+    margin-bottom: 16px;
+    height: auto;
+    font-size: 2px;
+}
+.group-company-detail-in-left,.business-type-detail-in-left{
+    height:auto;
+    float: left;
+}
+.group-company-detail-in-right,.business-type-detail-in-right{
+    float:left;
+    height:auto;
+    width: 162px;
+}
+.group-company-detail-in-left-in,.business-type-detail-in-left-in{
+    width: 45px;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+}
+.group-company-detail-in-left-in,.business-type-detail-in-left-in{
+    float: left;
+    margin:4px 12px 4px 0px;
+    font-size: 12px;
+    border: solid 1px #cecece;
+}
+.group-company-detail-in-right-in,.business-type-detail-in-right-in{
+    float: left;
+    font-size: 12px;
+    margin:4px 0px 4px 0px;
+    border: solid 1px #cecece;
+    text-align: center;
+    width: 75px;
+    height: 25px;
+    line-height: 25px;
+}
+.group-company-detail-in-right-in:hover,.business-type-detail-in-right-in:hover,.group-company-detail-in-left-in:hover,.business-type-detail-in-left-in:hover{
+    background-color: #d64635;
+    cursor:pointer;
+    border: none;
+}
+.detail-in-right{
+    margin-left: 12px;
+}
+.business-type,{
+    height: 30px;
+    line-height: 30px;
+    border-bottom: dashed #8c8b8b 1px;
+}
+.work-type-detail div{
+    border: solid 1px #cecece;
+}
+.right{
+    width:calc(100% - 260px);
+    height: auto;
+    float: left;
+}
+.right-header{
+    height: 45px;
+    background-color: #fafafa;
+    border-bottom: solid 1px #cecece;
+}
+.right-content-container{
+    margin: 10px 0px 0px 0px;
+}
+
+/* ---ÊµÏÖÍ¼Æ¬ÃÉ²ã--*/
+.twoPage-courses{
+    float: left;
+    background-color: gray;
+    padding: 0 0px 0px 0;
+    position: relative;
+    overflow: hidden;
+}
+.twoPage-courses >a{
+    width: 100%;
+    height: 100%;
+    float: left;
+    text-align: center;
+    position: relative;
+}
+.classIcon h3{
+    margin-top: 50px;
+    color:black;
+}
+.classIcon{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #fff;
+    opacity: 0;
+}
+.classIcon:hover {
+    background: #fff;
+    opacity: 0.9;
+    transition: opacity 0.5s;
+    -webkit-transition: opacity 0.5s;
+}

@@ -4,7 +4,7 @@
 define(function () {
     var numPerCol = 10;
 
-    var loadPropertyTree = function(){
+    var loadPropertyTree_0 = function(){
         require(["../js/serviceConfig.js", "dojo/domReady!"], function (config) {
             $.ajax({
                 url: config.getDMPropertyTree,
@@ -37,6 +37,43 @@ define(function () {
             });
         });
     };
+
+    function loadPropertyTree(parentId){
+        require(["../js/serviceConfig.js", "dojo/domReady!"], function (config) {
+            var treeDataSource = new kendo.data.HierarchicalDataSource({
+                transport: {
+                    read: {
+                        url: config.getDMPropertyTree, //.replace("{parentId}", parentId)
+                        dataType: "jsonp"
+                    }
+                },
+                schema: {
+                    model: {
+                        id: "id",
+                        hasChildren: "hasChild"
+                    }
+                }
+            });
+
+            $("#treeview").kendoTreeView({
+                dataSource: treeDataSource,
+                dataTextField: "name",
+                dataImageUrlField: "imgUrl",
+                select: onSelect
+            });
+
+            function onSelect(e) {
+                var dataItem = this.dataItem(e.node);
+                if(dataItem.hasChild == false){
+                    var comp = dataItem.children.data.id.split('.')[1];
+                    var sect = dataItem.id;
+
+                    loadSectFloorList(comp, sect);
+                }
+
+            }
+        });
+    }
 
     function loadSectFloorList(comp, sect){
         require(["../js/serviceConfig.js", "../js/app/floorRoomsEditor/roomEditor.js", "dojo/domReady!"],
@@ -78,6 +115,15 @@ define(function () {
                         roomEditor.loadFloorRooms(comp, sect, floorInt);
                         roomEditor.loadFloorWalls(comp, sect, floorInt);
                     });
+
+                    //默认打开第一个楼层
+                    loadFloorPropertyList(comp, sect, data[0].FLOOR);
+
+                    roomEditor.loadFloorRooms(comp, sect, parseInt(data[0].FLOOR_INT));
+                    roomEditor.loadFloorWalls(comp, sect, parseInt(data[0].FLOOR_INT));
+
+                    $("#div_propertyTree").hide();
+                    $("#div_propertyPanel").show();
                 },
                 error: function (XMLHttpRequest, textStatus, errorThrown) {
                     console.log('load sect floor list error');

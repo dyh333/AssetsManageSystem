@@ -47,14 +47,9 @@
     <!-- kendo ui -->
     <link rel="stylesheet" href="../js/lib/kendo/style/kendo.common-bootstrap.min.css" />
     <link rel="stylesheet" href="../js/lib/kendo/style/kendo.bootstrap.min.css" />
-
-
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/style.css"/>
     <style>
-        .selected {
-            color: white;
-            background-color: #E03C47;  /*!important */
-        }
-
         #treeview .k-sprite {
             background-image: url("../imgs/coloricons-sprite.png");
         }
@@ -64,8 +59,6 @@
         .pdf { background-position: 0 -32px; }
         .html { background-position: 0 -48px; }
         .image { background-position: 0 -64px; }
-
-
     </style>
 <!-- END HEAD -->
 
@@ -504,29 +497,58 @@
         <!-- BEGIN CONTENT BODY -->
         <div class="page-content">
             <div class="portlet-body">
-                <div id="div_contentRow" class="row">
-                    <div id="div_propertyTree" class="col-sm-3" style="height: 100%;">
-                        <div id="treeview" style="overflow-x: hidden; overflow-y: auto; height: 100%;">
-                        </div>
-                    </div>
-
-                    <div id="div_propertyPanel" class="col-sm-3" style="height: 100%; display: none;">
-                        <div class="row" style="margin-left: 10px;">
-                            <div style="height: 45px; padding-top: 15px;">
-                                铺位信息
+                <div class="row" style="margin-left: -20px;margin-top: -25px;margin-right: -25px">
+                    <!--<div id="div_propertyTree" class="col-sm-3" >
+                        <div id="example">
+                            <div class="demo-section k-content">
+                                <ul id="treeview">
+                                    <li data-expanded="true">
+                                        <span class="k-sprite folder"></span>
+                                        My Web Site
+                                        <ul>
+                                            <li data-expanded="true">
+                                                <span class="k-sprite folder"></span>images
+                                                <ul>
+                                                    <li><span class="k-sprite image"></span>logo.png</li>
+                                                    <li><span class="k-sprite image"></span>body-back.png</li>
+                                                    <li><span class="k-sprite image"></span>my-photo.jpg</li>
+                                                </ul>
+                                            </li>
+                                            <li data-expanded="true">
+                                                <span class="k-sprite folder"></span>resources
+                                                <ul>
+                                                    <li data-expanded="true">
+                                                        <span class="k-sprite folder"></span>pdf
+                                                        <ul>
+                                                            <li><span class="k-sprite pdf"></span>brochure.pdf</li>
+                                                            <li><span class="k-sprite pdf"></span>prices.pdf</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li><span class="k-sprite folder"></span>zip</li>
+                                                </ul>
+                                            </li>
+                                            <li><span class="k-sprite html"></span>about.html</li>
+                                            <li><span class="k-sprite html"></span>contacts.html</li>
+                                            <li><span class="k-sprite html"></span>index.html</li>
+                                            <li><span class="k-sprite html"></span>portfolio.html</li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
+                        </div>
+                    </div>-->
+                    <div id="div_propertyPanel" class="" style="height: 100%; display: none;">
+                       <!-- <div class="row" style="margin-left: 10px;">
+                            <h4>铺位信息</h4>
                             <div style="height: 1px; background-color: #C8C8C8"></div>
-                            <div class="input-group" style="margin-top: 10px;">
+
+                            <div class="input-group">
                                 <input id="input_search" type="text" class="form-control" placeholder="请输入铺位名"                                                        aria-describedby="basic-addon2">
                                 <span class="input-group-btn" id="basic-addon2">
                                     <button id="btn_propertySearch" class="btn btn-default" type="button">
                                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                                     </button>
                                 </span>
-                            </div>
-
-                            <div id="div_selIcon" style="position: absolute; top:-200px; left: -5px;">
-                                <img src="../imgs/prop_tree/icon_list_select.png" />
                             </div>
 
                             <table class="table table-striped">
@@ -558,49 +580,51 @@
                             </script>
 
                         </div>
-                    </div>
 
+                        <div class="row" style="height: 100%;">
+                            <div id="div_propertyList" style="height: 100%; overflow-x: hidden; overflow-y: auto;" class=""></div>
+                        </div>-->
+                    </div>
                     <!-- right -->
-                    <div id="div_right" class="col-sm-9" >
-                        <div id="div_editMenu" class="row">
-                            <div class="col-sm-9">
-                                <!--</div>-->
+                    <div id="div_right" class="" >
+                      <!--  <div id="div_editMenu" class="row">
+                            <div class="col-sm-9 col-sm-height">
+                                &lt;!&ndash;</div>&ndash;&gt;
                                 <div class="btn-group">
-                                    <button id="btn_selRoom" type="button" class="btn btn-default" style="padding: 2px 8px;">
+                                    <button type="button" class="btn btn-default">
+                                        &lt;!&ndash;<i class="fa fa-user"></i> &ndash;&gt;
                                         <img src="../imgs/editor/btn_header_select.png" /><br/>选择
                                     </button>
-                                    <button id="btn_cutRoom" type="button" class="btn btn-default disabled" style="padding: 2px 8px;">
+                                    <button type="button" class="btn btn-default disabled">
                                         <img src="../imgs/editor/btn_header_cut.png" /><br/>裁切</button>
-                                    <button id="btn_mergeRoom" type="button" class="btn btn-default disabled" style="padding: 2px 8px;">
+                                    <button type="button" class="btn btn-default">
                                         <img src="../imgs/editor/btn_header_union.png" /><br/>合并</button>
-                                    <button id="btn_cancel" type="button" class="btn btn-default disabled" style="padding: 2px 8px;">
-                                        <img src="../imgs/editor/btn_header_cancel.png" /><br/>撤销</button>
-                                    <button id="btn_save" type="button" class="btn btn-default disabled" style="padding: 2px 8px;">
+                                    <button type="button" class="btn btn-default">
+                                        <img src="../imgs/editor/btn_header_cancel.png" /><br/>取消</button>
+                                    <button type="button" class="btn btn-default">
                                         <img src="../imgs/editor/btn_header_save.png" /><br/>保存</button>
-                                    <button id="btn_clear" type="button" class="btn btn-default disabled" style="padding: 2px 8px;">
-                                        <img src="../imgs/editor/btn_header_save.png" /><br/>清除</button>
-                                    <button id="btn_linkRoom" type="button" class="btn btn-default disabled" style="padding: 2px 8px;">
+                                    <button id="btn_link" type="button" class="btn btn-default">
                                         <img src="../imgs/editor/btn_header_link.png" /><br/>挂接</button>
                                     </button>
-                                    <div id="div_link" class="btn-group" >
+                                    <div class="btn-group">
                                         <script id="sel_hook_tmpl" type="text/x-jsrender">
                                             {{for}}<option data-content="<img src='../imgs/editor/{{if GJSTATUS == '1'}}list_legend_link.png{{else}}list_legend_unlink.png{{/if}}'>
-                                                {{:PROPERTYNAME}}" value={{:PROPERTY}}>{{:PROPERTYNAME}}</option>
+                                                {{:PROPERTYNAME}}">{{:PROPERTYNAME}}</option>
                                             {{/for}}
                                         </script>
 
                                         <select id="sel_hook" class="selectpicker" data-live-search="true">
-                                            <!--<option value="Hot Dog, Fries and a Soda">Hot Dog, Fries and a Soda</option>-->
+                                            &lt;!&ndash;<option data-content="<img src='../imgs/editor/list_legend_link.png'>Hot Dog, Fries and a Soda">Hot Dog, Fries and a Soda</option>&ndash;&gt;
                                         </select>
                                         <button id="btn_confirmHook" type="button" >挂接</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3 col-sm-height">
                                 <h4>Example heading</h4>
                             </div>
-                        </div>
-                        <div class="row" id="div_map" style="margin-left: 0px;">
+                        </div>-->
+                       <!-- <div class="row" id="div_map">
                             <div id="div_sectFloors">
                                 <input type='button' id="btn_preFloorPage" class="btn-w3r" style="background-image: url('../imgs/floor_num/btn_floor_prev.png'); background-repeat: no-repeat;"></input>
 
@@ -623,11 +647,224 @@
                                 <img id="map_ruleDistance" src="../imgs/mapToolBox/maptool_rulediatance.png">
                                 <img id="map_ruleArea" src="../imgs/mapToolBox/maptool_rulearea.png">
                             </div>
-
                             <div id="mapLegend">
                                 <div><img src="../imgs/editor/header_legend_link.png"> 已挂已租</div>
                                 <div><img src="../imgs/editor/header_legend_link_02.png"> 已挂未租</div>
                                 <div><img src="../imgs/editor/header_legend_unlink.png"> 未挂</div>
+                            </div>
+                        </div>-->
+                        <div class="middle">
+                            <div class="middle-container">
+                                <div class="middle-one">
+                                    <span class="text">项目索引</span>
+                                    <span class="icon glyphicon glyphicon-th" aria-hidden="true"></span>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="请输入项目名"/>
+                                    <span class="input-group-btn">
+                                    <button type="button" class="btn"><span style="color: white">搜索</span></button>
+                                    </span>
+                                </div>
+                                <div class="group-company">
+                                    <span>集团公司</span>
+                                </div>
+                                <div class="group-company-detail">
+                                    <div class="group-company-detail-in">
+                                        <div class="group-company-detail-in-left">
+                                            <div class="group-company-detail-in-left-in">全部</div>
+                                        </div>
+                                        <div class="group-company-detail-in-right"></div>
+                                    </div>
+                                </div>
+                                <div class="business-type" style="border-bottom: 1px dashed #cecece">
+                                    <span >业态类型</span>
+                                </div>
+                                <div class="business-type-detail">
+                                    <div class="business-type-detail-in">
+                                        <div class="business-type-detail-in-left">
+                                            <div class="business-type-detail-in-left-in">全部</div>
+                                        </div>
+                                        <div class="business-type-detail-in-right">
+                                            <!--<div style="float: none">
+                                                <div class="business-type-detail-in-right-in" style="width: 75px;text-align: center">写字楼</div>
+                                                <div class="business-type-detail-in-right-in detail-in-right" style="width: 75px;text-align: center">集中式商业</div>
+                                            </div>
+                                            <div style="float: none">
+                                                <div class="business-type-detail-in-right-in" style="width: 75px;text-align: center">街区式商业</div>
+                                                <div class="business-type-detail-in-right-in detail-in-right" style="width: 75px;text-align: center">沿街模式</div>
+                                            </div>
+                                            <div style="float: none">
+                                                <div class="business-type-detail-in-right-in" style="width: 75px;text-align: center">沿街模式</div>
+                                                <div class="business-type-detail-in-right-in detail-in-right" style="width: 75px;text-align: center">临时商铺</div>
+                                            </div>
+                                            <div style="float: none">
+                                                <div class="business-type-detail-in-right-in" style="width: 75px;text-align: center">临时商业</div>
+                                                <div class="business-type-detail-in-right-in detail-in-right" style="width: 75px;text-align: center">产业园区</div>
+                                            </div>
+                                            <div style="float: none">
+                                                <div class="business-type-detail-in-right-in" style="width: 75px;text-align: center">工业厂房</div>
+                                                <div class="business-type-detail-in-right-in detail-in-right" style="width: 75px;text-align: center">养老公寓</div>
+                                            </div>
+                                            <div style="float: none">
+                                                <div class="business-type-detail-in-right-in" style="width: 75px;text-align: center">酒店</div>
+                                                <div class="business-type-detail-in-right-in detail-in-right" style="width: 75px;text-align: center">一般性经营</div>
+                                            </div>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="work-type">
+                                    <span>运营类型</span>
+                                </div>
+                                <div class="group-company-detail">
+                                    <div class="group-company-detail-in">
+                                        <div class="group-company-detail-in-left">
+                                            <div class="group-company-detail-in-left-in">全部</div>
+                                        </div>
+                                        <div class="group-company-detail-in-right">
+                                            <div style="float: none">
+                                                <div class="group-company-detail-in-right-in" style="width: 75px;text-align: center;background-color: #d64635">租赁型</div>
+                                                <div class="group-company-detail-in-right-in detail-in-right" style="width: 75px;text-align: center">经营性</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="right-header">
+                                <div style="line-height: 45px;margin-left: 20px;float: left;width: 100px;"><span style="font-size: 12px">共找到<span style="color: #d64635;font-size: 16px">24</span>个项目</span></div>
+                                <div style="line-height: 45px">
+                                    <div style="float: right;width: 74px;height: 28px;background-color: red;margin-right: 20px;line-height: 28px;text-align: center;margin-top: 10px">
+                                        <img src="../imgs/right/btn_contentMode_list_over.png" alt="" style="line-height: 28px"/>
+                                        <span style="font-size: 12px">列表</span>
+                                    </div>
+                                    <div style="float: right;width: 74px;height: 28px;background-color: #ffffff;margin-right: 10px;line-height: 28px;margin-top: 10px;border: 1px solid #b9b9b9; text-align: center">
+                                        <img src="../imgs/right/btn_contentMode_map.png" alt="" style="line-height: 28px"/>
+                                        <span style="font-size: 12px">地图</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="right-content-container">
+                                <div class="right-content" style="width: 120px;height:auto;margin:15px;float: left;">
+                                    <div style="margin-bottom: 10px">建屋大厦</div>
+                                    <div class="twoPage-courses" style="height: 120px;width: 120px;background-color: #002240">
+                                        <a href="#">
+                                            <img src="../imgs/pic/JW01.jpg" style="width: 120px;height: 120px;"/>
+                                            <div class="classIcon">
+                                                <h3>JW01</h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="right-content" style="width: 120px;height:auto;margin:15px;float: left;">
+                                    <div style="margin-bottom: 10px">建屋大厦</div>
+                                    <div class="twoPage-courses" style="height: 120px;width: 120px;background-color: #002240">
+                                        <a href="#">
+                                            <img src="../imgs/pic/JW01.jpg" style="width: 120px;height: 120px;"/>
+                                            <div class="classIcon">
+                                                <h3>JW01</h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="right-content" style="width: 120px;height:auto;margin:15px;float: left;">
+                                    <div style="margin-bottom: 10px">建屋大厦</div>
+                                    <div class="twoPage-courses" style="height: 120px;width: 120px;background-color: #002240">
+                                        <a href="#">
+                                            <img src="../imgs/pic/JW01.jpg" style="width: 120px;height: 120px;"/>
+                                            <div class="classIcon">
+                                                <h3>JW01</h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="right-content" style="width: 120px;height:auto;margin:15px;float: left;">
+                                    <div style="margin-bottom: 10px">建屋大厦</div>
+                                    <div class="twoPage-courses" style="height: 120px;width: 120px;background-color: #002240">
+                                        <a href="#">
+                                            <img src="../imgs/pic/JW01.jpg" style="width: 120px;height: 120px;"/>
+                                            <div class="classIcon">
+                                                <h3>JW01</h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="right-content" style="width: 120px;height:auto;margin:15px;float: left;">
+                                    <div style="margin-bottom: 10px">建屋大厦</div>
+                                    <div class="twoPage-courses" style="height: 120px;width: 120px;background-color: #002240">
+                                        <a href="#">
+                                            <img src="../imgs/pic/JW01.jpg" style="width: 120px;height: 120px;"/>
+                                            <div class="classIcon">
+                                                <h3>JW01</h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="right-content" style="width: 120px;height:auto;margin:15px;float: left;">
+                                    <div style="margin-bottom: 10px">建屋大厦</div>
+                                    <div class="twoPage-courses" style="height: 120px;width: 120px;background-color: #002240">
+                                        <a href="#">
+                                            <img src="../imgs/pic/JW01.jpg" style="width: 120px;height: 120px;"/>
+                                            <div class="classIcon">
+                                                <h3>JW01</h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="right-content" style="width: 120px;height:auto;margin:15px;float: left;">
+                                    <div style="margin-bottom: 10px">建屋大厦</div>
+                                    <div class="twoPage-courses" style="height: 120px;width: 120px;background-color: #002240">
+                                        <a href="#">
+                                            <img src="../imgs/pic/JW01.jpg" style="width: 120px;height: 120px;"/>
+                                            <div class="classIcon">
+                                                <h3>JW01</h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div><div class="right-content" style="width: 120px;height:auto;margin:15px;float: left;">
+                                <div style="margin-bottom: 10px">建屋大厦</div>
+                                <div class="twoPage-courses" style="height: 120px;width: 120px;background-color: #002240">
+                                    <a href="#">
+                                        <img src="../imgs/pic/JW01.jpg" style="width: 120px;height: 120px;"/>
+                                        <div class="classIcon">
+                                            <h3>JW01</h3>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                                <div class="right-content" style="width: 120px;height:auto;margin:15px;float: left;">
+                                    <div style="margin-bottom: 10px">建屋大厦</div>
+                                    <div class="twoPage-courses" style="height: 120px;width: 120px;background-color: #002240">
+                                        <a href="#">
+                                            <img src="../imgs/pic/JW01.jpg" style="width: 120px;height: 120px;"/>
+                                            <div class="classIcon">
+                                                <h3>JW01</h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="right-content" style="width: 120px;height:auto;margin:15px;float: left;">
+                                    <div style="margin-bottom: 10px">建屋大厦</div>
+                                    <div class="twoPage-courses" style="height: 120px;width: 120px;background-color: #002240">
+                                        <a href="#">
+                                            <img src="../imgs/pic/JW01.jpg" style="width: 120px;height: 120px;"/>
+                                            <div class="classIcon">
+                                                <h3>JW01</h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="right-content" style="width: 120px;height:auto;margin:15px;float: left;">
+                                    <div style="margin-bottom: 10px">建屋大厦</div>
+                                    <div class="twoPage-courses" style="height: 120px;width: 120px;background-color: #002240">
+                                        <a href="#">
+                                            <img src="../imgs/pic/JW01.jpg" style="width: 120px;height: 120px;"/>
+                                            <div class="classIcon">
+                                                <h3>JW01</h3>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -641,7 +878,7 @@
     <a href="javascript:;" class="page-quick-sidebar-toggler">
         <i class="icon-login"></i>
     </a>
-    <div class="page-quick-sidebar-wrapper" data-close-on-body-click="false">
+    <!--<div class="page-quick-sidebar-wrapper" data-close-on-body-click="false">
         <div class="page-quick-sidebar">
             <ul class="nav nav-tabs">
                 <li class="active">
@@ -1196,19 +1433,19 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
     <!-- END QUICK SIDEBAR -->
 </div>
 <!-- END CONTAINER -->
 <!-- BEGIN FOOTER -->
-<div class="page-footer">
+<!--<div class="page-footer">
     <div class="page-footer-inner"> 2014 &copy; Metronic by keenthemes.
         <a href="http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes" title="Purchase Metronic just for 27$ and get lifetime updates for free" target="_blank">Purchase Metronic!</a>
     </div>
     <div class="scroll-to-top">
         <i class="icon-arrow-up"></i>
     </div>
-</div>
+</div>-->
 <!-- END FOOTER -->
 <!--[if lt IE 9]>
 <script src="../js/lib/Metronic/global/plugins/respond.min.js"></script>
@@ -1239,7 +1476,7 @@
 <script src="../js/lib/Metronic/layouts/layout/scripts/layout.min.js" type="text/javascript"></script>
 <script src="../js/lib/Metronic/layouts/layout/scripts/demo.min.js" type="text/javascript"></script>
 <script src="../js/lib/Metronic/layouts/global/scripts/quick-sidebar.min.js" type="text/javascript"></script>
-<!--END THEME LAYOUT SCRIPTS-->
+<!-- END THEME LAYOUT SCRIPTS-->
 
 <script src="../js/lib/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script src="../js/lib/lodash/lodash.min.js"></script>
@@ -1252,9 +1489,62 @@
 <!--<script src="https://js.arcgis.com/3.16/"></script>-->
 
 <script src="../js/main-floorRoomEditor.js"></script>
-
-
-
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script>
+    $.ajax({
+        type:"GET",
+        url:"http://58.210.9.134/zcglserver/getAllHoldType",
+        dataType:"jsonp",
+        success: function (data) {
+            for(var i=0;i<data.length;i++){
+                /*等于0说明是偶数*/
+                if(i%2 ==0){
+                    $(".group-company-detail-in-right").append("<div class='group-company-detail-in-right-in'>"+data[i].NAME+"</div>");
+                }else{
+                    $(".group-company-detail-in-right").append("<div class='group-company-detail-in-right-in detail-in-right'>"+data[i].NAME+"</div>");
+                }
+            }
+        },error:function(){
+            alert("error");
+        }
+    });
+    $.ajax({
+        type:"GET",
+        url:"http://58.210.9.134/zcglserver/getAllPropType",
+        dataType:"jsonp",
+        success: function (data) {
+            console.log(data);
+            for(var i=0;i<data.length;i++){
+                /!*等于0说明是偶数*!/
+                if(i%2 ==0){
+                    $(".business-type-detail-in-right").append("<div class='business-type-detail-in-right-in'>"+data[i].NAME+"</div>");
+                }else{
+                    $(".business-type-detail-in-right").append("<div class='business-type-detail-in-right-in detail-in-right'>"+data[i].NAME+"</div>");
+                }
+            }
+        },error:function(){
+            alert("error");
+        }
+    });
+    /*$.ajax({
+        type:"GET",
+        url:"http://58.210.9.134/zcglserver/getAllPropType",
+        dataType:"jsonp",
+        success: function (data) {
+            console.log(data);
+            for(var i=0;i<data.length;i++){
+                /!*等于0说明是偶数*!/
+                if(i%2 ==0){
+                    $(".business-type-detail-in-right").append("<div class='business-type-detail-in-right-in'>"+data[i].NAME+"</div>");
+                }else{
+                    $(".business-type-detail-in-right").append("<div class='business-type-detail-in-right-in detail-in-right'>"+data[i].NAME+"</div>");
+                }
+            }
+        },error:function(){
+            alert("error");
+        }
+    });*/
+</script>
 </body>
-
 </html>

@@ -3,12 +3,16 @@
 
 require(['../js/app/floorRoomsEditor/propertyTree.js', '../js/app/floorRoomsEditor/roomEditor.js', '../js/app/mapToolBox.js', 'dojo/domReady!'],
     function (tree, roomEditor, mapToolBox) {
-        var totalH = $(window).height();
-        var topH = $("#div_top").height();
-        var menuH = $("#div_editMenu").height();
-        $("#div_center").css("height", totalH - topH);
-        $("#div_map").css("height", totalH - topH - menuH);
+        //var totalH = $(window).height();
+        //var topH = $("#div_top").height();
+        //var menuH = $("#div_editMenu").height();
+        //$("#div_center").css("height", totalH - topH);
+        //$("#div_map").css("height", totalH - topH - menuH);
 
+        var contentH = $(".page-content").height();
+        var menuH = $("#div_editMenu").height();
+        $(".portlet-body #div_contentRow").css("height", contentH);
+        $("#div_map").css("height", contentH - menuH);
 
         $("#mapToolBox img").click(function(){
            var tool = $(this).attr("id");
@@ -22,25 +26,25 @@ require(['../js/app/floorRoomsEditor/propertyTree.js', '../js/app/floorRoomsEdit
             tree.changeFloorPage(1);
         });
 
-        $("#treeview").kendoTreeView({
-            select:
-                function onSelect(e) {
-                    //alert("Selecting: " + this.text(e.node));
-                    var comp = 'JW16', sect = '011', floor='011-01', floorInt = '1';
+        //$("#treeview").kendoTreeView({
+        //    select:
+        //        function onSelect(e) {
+        //            //alert("Selecting: " + this.text(e.node));
+        //            var comp = 'JW16', sect = '011', floor='011-01', floorInt = '1';
+        //
+        //            tree.loadSectFloorList(comp, sect);
+        //            tree.loadFloorPropertyList(comp, sect, floor);
+        //
+        //            roomEditor.loadFloorRooms(comp, sect, floorInt);
+        //            roomEditor.loadFloorWalls(comp, sect, floorInt);
+        //
+        //
+        //            $("#div_propertyTree").hide();
+        //            $("#div_propertyPanel").show();
+        //        }
+        //});
 
-                    tree.loadSectFloorList(comp, sect);
-                    tree.loadFloorPropertyList(comp, sect, floor);
-
-                    roomEditor.loadFloorRooms(comp, sect, floorInt);
-                    roomEditor.loadFloorWalls(comp, sect, floorInt);
-
-
-                    $("#div_propertyTree").hide();
-                    $("#div_propertyPanel").show();
-                }
-        });
-
-        //tree.loadPropertyTree();
+        tree.loadPropertyTree('0');
 
         roomEditor.loadBaseMap();
 

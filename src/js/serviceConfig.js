@@ -34,7 +34,13 @@ define(function () {
 
         saveCutRoomUrl: "http://58.210.9.134/zcglserver/saveCutRoom/{roomId}/{user}",
 
-        mergeRoomsById: "http://58.210.9.134/zcglserver/mergeRoomsById/{roomId1}/{roomId2}/{user}",
+        mergeRoomsById: "http://58.210.9.134/zcglserver/mergeRoomsById/{roomId1}/{roomId2}",
+
+        loadTempMergeRoomUrl: "http://58.210.9.134/zcglserver/loadTempMergeRoom/{roomFatId1}/{roomFatId2}",
+
+        saveMergeRoomUrl: "http://58.210.9.134/zcglserver/saveMergeRoom/{roomId1}/{roomId2}/{user}",
+
+        cancelMergeRoom: "http://58.210.9.134/zcglserver/cancelMergeRoom/{roomId1}/{roomId2}",
 
         hookRoomUrl: "http://58.210.9.134/zcglserver/hookRoom/{propertyId}/{roomId}"
     };
